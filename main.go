@@ -3,12 +3,8 @@ package main
 import (
 	"fmt"
 	"net"
-	"sync"
-)
-
-var (
-	dataStore = make(map[string]string)
-	mutex     = &sync.Mutex{}
+	"serhhatsari/gores/commands"
+	"strings"
 )
 
 func main() {
@@ -19,7 +15,13 @@ func main() {
 		return
 	}
 	// Close the listener when the application closes
-	defer listener.Close()
+	defer func(listener net.Listener) {
+		err := listener.Close()
+		if err != nil {
+			fmt.Println("Error closing listener:", err)
+			return
+		}
+	}(listener)
 
 	for {
 		// Accept a connection from a client
@@ -35,7 +37,13 @@ func main() {
 }
 
 func handleClient(conn net.Conn) {
-	defer conn.Close()
+	defer func(conn net.Conn) {
+		err := conn.Close()
+		if err != nil {
+			fmt.Println("Error closing connection:", err)
+			return
+		}
+	}(conn)
 
 	for {
 		// Create a buffer to hold incoming data
@@ -44,6 +52,9 @@ func handleClient(conn net.Conn) {
 		// Read data from the connection
 		n, err := conn.Read(buf)
 		if err != nil {
+			if err.Error() == "EOF" {
+				return
+			}
 			fmt.Println("Error reading:", err)
 			return
 		}
@@ -51,10 +62,36 @@ func handleClient(conn net.Conn) {
 		// Convert the data to a string
 		request := string(buf[:n])
 
+		// Convert the request to a command
+		command := convertToCommand(request)
+
 		// Parse and execute Redis command
-		response := executeRedisCommand(request)
+		response := executeCommand(command)
 
 		// Send the response back to the client
-		conn.Write([]byte(response))
+		_, err = conn.Write([]byte(response))
+		if err != nil {
+			fmt.Println("Error writing:", err)
+			return
+		}
+	}
+}
+
+func convertToCommand(request string) *commands.Command {
+	parts := strings.Fields(request)
+
+	name := strings.ToUpper(parts[2])
+
+	argsNum := int(parts[0][1]-'0') - 1
+
+	var args []string
+	for i := 4; i < len(parts); i += 2 {
+		args = append(args, parts[i])
+	}
+
+	return &commands.Command{
+		Name:    name,
+		ArgsNum: argsNum,
+		Args:    args,
 	}
 }
