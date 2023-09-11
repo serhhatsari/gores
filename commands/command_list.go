@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func ExecuteCommandList() string {
+func handleCommandListCmd() string {
 	// List of available commands
 	commands := []string{
 		"SET - Write data to the database",

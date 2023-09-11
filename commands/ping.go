@@ -1,6 +1,6 @@
 package commands
 
-func ExecutePingCommand(command *Command) string {
+func handlePingCmd(command *Command) string {
 	if command.ArgsNum == 2 {
 		return "+" + command.Args[0] + "\r\n"
 	}
