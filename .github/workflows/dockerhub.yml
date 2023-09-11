@@ -1,0 +1,25 @@
+name: Update Docker Image in DockerHub
+
+on:
+  push:
+    branches: [ "master" ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Checkout
+      uses: actions/checkout@v3.3.0
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and Tag Docker Image
+      run: docker build -t gores . && docker tag gores ${{ secrets.DOCKERHUB_USERNAME }}/gores:latest
+      
+    - name: Push Docker Image
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/gores:latest
