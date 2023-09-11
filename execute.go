@@ -5,36 +5,45 @@ import (
 	"strings"
 )
 
-func executeRedisCommand(command string) string {
-	parts := strings.Fields(command)
-	if len(parts) == 0 {
-		return "-ERR Empty command\r\n"
-	}
+const (
+	CommandCmd = "COMMAND"
+	SetCmd     = "SET"
+	GetCmd     = "GET"
+	PingCmd    = "PING"
+)
 
-	cmd := strings.ToUpper(parts[2])
+func Set(key string, value string) {
+	mutex.Lock()
+	dataStore[key] = value
+	mutex.Unlock()
+}
 
-	switch cmd {
-	case "COMMAND":
-		return formatCommandList()
-	case "SET":
-		if parts[0][1] != '3' {
+func executeRedisCommand(command *Command) string {
+
+	switch command.Name {
+
+	case PingCmd:
+		if command.ArgsNum == '2' {
+			return "+" + command.Args[0] + "\r\n"
+		}
+		return "+PONG\r\n"
+
+	case SetCmd:
+		if command.ArgsNum != 2 {
 			return "-ERR Wrong number of arguments for SET\r\n"
 		}
 
-		key := parts[4]
-		value := parts[6]
-		fmt.Println("SET", key, value)
+		key := command.Args[0]
+		value := command.Args[1]
 
-		mutex.Lock()
-		dataStore[key] = value
-		mutex.Unlock()
+		Set(key, value)
+
 		return "+OK\r\n"
-	case "GET":
-		if parts[0][1] != '2' {
+	case GetCmd:
+		if command.ArgsNum != 1 {
 			return "-ERR Wrong number of arguments for GET\r\n"
 		}
-		key := parts[4]
-		fmt.Println("GET", key)
+		key := command.Args[0]
 
 		mutex.Lock()
 		value, ok := dataStore[key]
@@ -44,12 +53,8 @@ func executeRedisCommand(command string) string {
 			return "$-1\r\n"
 		}
 		return "$" + fmt.Sprint(len(value)) + "\r\n" + value + "\r\n"
-
-	case "PING":
-		if parts[0][1] == '2' {
-			return "+" + parts[4] + "\r\n"
-		}
-		return "+PONG\r\n"
+	case CommandCmd:
+		return formatCommandList()
 	default:
 		return "-ERR Unknown command\r\n"
 	}
