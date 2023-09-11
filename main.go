@@ -13,7 +13,7 @@ var (
 
 func main() {
 	// Create a listener for incoming connections
-	listener, err := net.Listen("tcp", "localhost:6379")
+	listener, err := net.Listen("tcp", "0.0.0.0:6379")
 	if err != nil {
 		fmt.Println("Error listening:", err)
 		return
