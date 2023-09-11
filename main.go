@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net"
 	"serhhatsari/gores/commands"
-	"strings"
+	"serhhatsari/gores/utils"
 )
 
 func main() {
@@ -63,10 +63,10 @@ func handleClient(conn net.Conn) {
 		request := string(buf[:n])
 
 		// Convert the request to a command
-		command := convertToCommand(request)
+		command := utils.ConvertToCommand(request)
 
 		// Parse and execute Redis command
-		response := executeCommand(command)
+		response := commands.HandleCommand(command)
 
 		// Send the response back to the client
 		_, err = conn.Write([]byte(response))
@@ -74,24 +74,5 @@ func handleClient(conn net.Conn) {
 			fmt.Println("Error writing:", err)
 			return
 		}
-	}
-}
-
-func convertToCommand(request string) *commands.Command {
-	parts := strings.Fields(request)
-
-	name := strings.ToUpper(parts[2])
-
-	argsNum := int(parts[0][1]-'0') - 1
-
-	var args []string
-	for i := 4; i < len(parts); i += 2 {
-		args = append(args, parts[i])
-	}
-
-	return &commands.Command{
-		Name:    name,
-		ArgsNum: argsNum,
-		Args:    args,
 	}
 }

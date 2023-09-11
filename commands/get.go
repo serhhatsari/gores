@@ -9,7 +9,7 @@ func Get(key string) (string, bool) {
 	return value, ok
 }
 
-func ExecuteGetCommand(command *Command) string {
+func handleGetCmd(command *Command) string {
 	if command.ArgsNum != 1 {
 		return "-ERR Wrong number of arguments for GET\r\n"
 	}

@@ -6,7 +6,7 @@ func Set(key string, value string) {
 	mutex.Unlock()
 }
 
-func ExecuteSetCommand(command *Command) string {
+func handleSetCmd(command *Command) string {
 	if command.ArgsNum != 2 {
 		return "-ERR Wrong number of arguments for SET\r\n"
 	}

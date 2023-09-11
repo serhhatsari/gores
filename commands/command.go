@@ -14,3 +14,18 @@ var (
 	dataStore = make(map[string]string)
 	mutex     = &sync.Mutex{}
 )
+
+func HandleCommand(command *Command) string {
+	switch command.Name {
+	case PingCmd:
+		return handlePingCmd(command)
+	case SetCmd:
+		return handleSetCmd(command)
+	case GetCmd:
+		return handleGetCmd(command)
+	case CommandCmd:
+		return handleCommandListCmd()
+	default:
+		return "-ERR Unknown command\r\n"
+	}
+}
