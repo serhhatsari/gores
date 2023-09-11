@@ -3,20 +3,9 @@ package main
 import (
 	"fmt"
 	"net"
+	"serhhatsari/gores/commands"
 	"strings"
-	"sync"
 )
-
-var (
-	dataStore = make(map[string]string)
-	mutex     = &sync.Mutex{}
-)
-
-type Command struct {
-	Name    string
-	ArgsNum int
-	Args    []string
-}
 
 func main() {
 	// Create a listener for incoming connections
@@ -77,7 +66,7 @@ func handleClient(conn net.Conn) {
 		command := convertToCommand(request)
 
 		// Parse and execute Redis command
-		response := executeRedisCommand(command)
+		response := executeCommand(command)
 
 		// Send the response back to the client
 		_, err = conn.Write([]byte(response))
@@ -88,7 +77,7 @@ func handleClient(conn net.Conn) {
 	}
 }
 
-func convertToCommand(request string) *Command {
+func convertToCommand(request string) *commands.Command {
 	parts := strings.Fields(request)
 
 	name := strings.ToUpper(parts[2])
@@ -100,7 +89,7 @@ func convertToCommand(request string) *Command {
 		args = append(args, parts[i])
 	}
 
-	return &Command{
+	return &commands.Command{
 		Name:    name,
 		ArgsNum: argsNum,
 		Args:    args,
