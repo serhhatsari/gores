@@ -26,41 +26,51 @@ func Get(key string) (string, bool) {
 }
 
 func executeRedisCommand(command *Command) string {
-
 	switch command.Name {
-
 	case PingCmd:
-		if command.ArgsNum == '2' {
-			return "+" + command.Args[0] + "\r\n"
-		}
-		return "+PONG\r\n"
-
+		return executePingCommand(command)
 	case SetCmd:
-		if command.ArgsNum != 2 {
-			return "-ERR Wrong number of arguments for SET\r\n"
-		}
-
-		key := command.Args[0]
-		value := command.Args[1]
-
-		Set(key, value)
-
-		return "+OK\r\n"
+		return executeSetCommand(command)
 	case GetCmd:
-		if command.ArgsNum != 1 {
-			return "-ERR Wrong number of arguments for GET\r\n"
-		}
-		key := command.Args[0]
-		value, ok := Get(key)
-		if !ok {
-			return "$-1\r\n"
-		}
-		return "$" + fmt.Sprint(len(value)) + "\r\n" + value + "\r\n"
+		return executeGetCommand(command)
 	case CommandCmd:
 		return formatCommandList()
 	default:
 		return "-ERR Unknown command\r\n"
 	}
+}
+
+func executePingCommand(command *Command) string {
+	if command.ArgsNum == 2 {
+		return "+" + command.Args[0] + "\r\n"
+	}
+	return "+PONG\r\n"
+}
+
+func executeSetCommand(command *Command) string {
+	if command.ArgsNum != 2 {
+		return "-ERR Wrong number of arguments for SET\r\n"
+	}
+
+	key := command.Args[0]
+	value := command.Args[1]
+
+	Set(key, value)
+
+	return "+OK\r\n"
+}
+
+func executeGetCommand(command *Command) string {
+	if command.ArgsNum != 1 {
+		return "-ERR Wrong number of arguments for GET\r\n"
+	}
+
+	key := command.Args[0]
+	value, ok := Get(key)
+	if !ok {
+		return "$-1\r\n"
+	}
+	return "$" + fmt.Sprint(len(value)) + "\r\n" + value + "\r\n"
 }
 
 func formatCommandList() string {
