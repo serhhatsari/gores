@@ -6,16 +6,23 @@ import (
 )
 
 const (
-	CommandCmd = "COMMAND"
+	PingCmd    = "PING"
 	SetCmd     = "SET"
 	GetCmd     = "GET"
-	PingCmd    = "PING"
+	CommandCmd = "COMMAND"
 )
 
 func Set(key string, value string) {
 	mutex.Lock()
 	dataStore[key] = value
 	mutex.Unlock()
+}
+
+func Get(key string) (string, bool) {
+	mutex.Lock()
+	value, ok := dataStore[key]
+	mutex.Unlock()
+	return value, ok
 }
 
 func executeRedisCommand(command *Command) string {
@@ -44,11 +51,7 @@ func executeRedisCommand(command *Command) string {
 			return "-ERR Wrong number of arguments for GET\r\n"
 		}
 		key := command.Args[0]
-
-		mutex.Lock()
-		value, ok := dataStore[key]
-		mutex.Unlock()
-
+		value, ok := Get(key)
 		if !ok {
 			return "$-1\r\n"
 		}
