@@ -27,9 +27,9 @@ func main() {
 	}(listener)
 
 	slog.Info("Server is initialized")
+	slog.Info("Ready to accept connections tcp")
 
 	for {
-		slog.Info("Ready to accept connections tcp")
 		// Accept a connection from a client
 		conn, err := listener.Accept()
 		if err != nil {
