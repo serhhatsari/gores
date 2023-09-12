@@ -14,11 +14,11 @@ It is a simple key-value store that supports the following commands(under develo
 Via [Docker](https://www.docker.com/)  
 First, pull the image from Docker Hub: 
 ```
-docker pull serhhatsari/gores
+docker pull serhhatsari/gores:latest
 ```
 Then, run a container from the image:
 ```
-docker run -p 6379:6379 serhhatsari/gores
+docker run -p 6379:6379 serhhatsari/gores:latest
 ```
 
 ## Contributions
