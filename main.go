@@ -1,33 +1,39 @@
 package main
 
 import (
-	"fmt"
+	"log/slog"
 	"net"
+
 	"serhhatsari/gores/commands"
 	"serhhatsari/gores/utils"
 )
 
 func main() {
+	slog.Info("Redis server is starting...")
+
 	// Create a listener for incoming connections
 	listener, err := net.Listen("tcp", "0.0.0.0:6379")
 	if err != nil {
-		fmt.Println("Error listening:", err)
+		slog.Error("Error listening:", err.Error())
 		return
 	}
 	// Close the listener when the application closes
 	defer func(listener net.Listener) {
 		err := listener.Close()
 		if err != nil {
-			fmt.Println("Error closing listener:", err)
+			slog.Error("Error closing listener:", err)
 			return
 		}
 	}(listener)
 
+	slog.Info("Server is initialized")
+
 	for {
+		slog.Info("Ready to accept connections tcp")
 		// Accept a connection from a client
 		conn, err := listener.Accept()
 		if err != nil {
-			fmt.Println("Error accepting connection:", err)
+			slog.Error("Error accepting: ", err.Error())
 			continue
 		}
 
@@ -40,7 +46,7 @@ func handleClient(conn net.Conn) {
 	defer func(conn net.Conn) {
 		err := conn.Close()
 		if err != nil {
-			fmt.Println("Error closing connection:", err)
+			slog.Error("Error closing connection:", err)
 			return
 		}
 	}(conn)
@@ -55,7 +61,7 @@ func handleClient(conn net.Conn) {
 			if err.Error() == "EOF" {
 				return
 			}
-			fmt.Println("Error reading:", err)
+			slog.Error("Error reading:", err.Error())
 			return
 		}
 
@@ -71,7 +77,7 @@ func handleClient(conn net.Conn) {
 		// Send the response back to the client
 		_, err = conn.Write([]byte(response))
 		if err != nil {
-			fmt.Println("Error writing:", err)
+			slog.Error("Error writing:", err.Error())
 			return
 		}
 	}
