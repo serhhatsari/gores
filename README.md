@@ -2,8 +2,8 @@
 **Gores** is a custom Redis server written in Go  
 
 ## Description  
-Gores is a custom Redis server written in Go. 
-It is a simple key-value store that supports the following commands:
+Gores is a custom Redis server written in Go.   
+It is a simple key-value store that supports the following commands(under development):
 * `GET <key>`: Returns the value of the given key
 * `SET <key> <value>`: Sets the value of the given key
 * `PING`: Returns `PONG`
