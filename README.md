@@ -11,7 +11,7 @@ It is a simple key-value store that supports the following commands(under develo
 
 ## Getting Started
 ### Installation and Running
-Via [Docker](https://www.docker.com/)  
+#### Via [Docker](https://www.docker.com/)  
 First, pull the image from Docker Hub: 
 ```
 docker pull serhhatsari/gores:latest
@@ -19,6 +19,19 @@ docker pull serhhatsari/gores:latest
 Then, run a container from the image:
 ```
 docker run -p 6379:6379 serhhatsari/gores:latest
+```
+#### Via Source Code  
+First, clone the repository:
+```
+git clone https://github.com/serhhatsari/gores.git
+```
+Then, build the project:
+```
+go build
+```
+Finally, run the executable:
+```
+./gores
 ```
 
 ## Contributions
