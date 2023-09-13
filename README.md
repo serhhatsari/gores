@@ -17,20 +17,20 @@ First, pull the image from Docker Hub:
 docker pull serhhatsari/gores:latest
 ```
 Then, run a container from the image:
-```
+```shell
 docker run -p 6379:6379 serhhatsari/gores:latest
 ```
 #### Via Source Code  
 First, clone the repository:
-```
+```shell
 git clone https://github.com/serhhatsari/gores.git
 ```
 Then, build the project:
-```
+```shell
 go build
 ```
 Finally, run the executable:
-```
+```shell
 ./gores
 ```
 
