@@ -4,10 +4,16 @@
 ## Description  
 Gores is a custom Redis server written in Go.   
 It is a simple key-value store that supports the following commands(under development):
-* `GET <key>`: Returns the value of the given key
-* `SET <key> <value>`: Sets the value of the given key
-* `PING`: Returns `PONG`
+<details>
+  <summary>Supported Commands</summary>
+
+* `GET <key>`: Returns the value of the given key. If the key does not exist, it returns `nil`
+* `SET <key> <value>`: Sets the value of the given key. If the key exists, it overwrites the value.
+* `DEL key [key ...] `: Removes the specified keys. A key is ignored if it does not exist.
+* `PING` ["message"] : Returns `PONG`, or a custom message if one was provided. 
 * `COMMANDS`: Returns a list of supported commands
+
+</details>
 
 ## Getting Started
 ### Installation and Running
