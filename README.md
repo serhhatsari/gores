@@ -41,6 +41,22 @@ Finally, run the executable:
 ```shell
 ./gores
 ```
+### Playing with Gores
+You can use the [Redis CLI](https://redis.io/topics/rediscli) to interact with Gores.
+```shell
+% redis-cli -p 6379
+redis> ping
+PONG
+redis> set foo bar
+OK
+redis> get foo
+"bar"
+redis> incr mycounter
+(integer) 1
+redis> incr mycounter
+(integer) 2
+```
+
 
 ## Contributions
 Contributions to **Gores** are always welcome! If you find a bug or have an idea for a new feature, feel free to submit a pull request or open an issue on the GitHub repository.
