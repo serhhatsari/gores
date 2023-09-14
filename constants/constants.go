@@ -1,4 +1,4 @@
-package commands
+package constants
 
 const (
 	PingCmd    = "PING"
