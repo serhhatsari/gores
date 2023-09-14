@@ -6,5 +6,6 @@ const (
 	GetCmd     = "GET"
 	DelCmd     = "DEL"
 	IncrCmd    = "INCR"
+	DecrCmd    = "DECR"
 	CommandCmd = "COMMAND"
 )
