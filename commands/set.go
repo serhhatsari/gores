@@ -1,9 +1,9 @@
 package commands
 
-func Set(key string, value string) {
+func set(key string, value string) {
 	mutex.Lock()
+	defer mutex.Unlock()
 	dataStore[key] = value
-	mutex.Unlock()
 }
 
 func handleSetCmd(command *Command) string {
@@ -14,7 +14,7 @@ func handleSetCmd(command *Command) string {
 	key := command.Args[0]
 	value := command.Args[1]
 
-	Set(key, value)
+	set(key, value)
 
 	return "+OK\r\n"
 }
