@@ -4,11 +4,12 @@ import "fmt"
 
 func del(key string) bool {
 	mutex.Lock()
+	defer mutex.Unlock()
+
 	_, ok := dataStore[key]
 	if ok {
 		delete(dataStore, key)
 	}
-	mutex.Unlock()
 	return ok
 }
 
@@ -30,5 +31,5 @@ func handleDelCmd(command *Command) string {
 		return "+OK\r\n"
 	}
 
-	return ":" + fmt.Sprint(numOfDeletedKeys) + "\r\n"
+	return fmt.Sprintf(":%d\r\n", numOfDeletedKeys)
 }
