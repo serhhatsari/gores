@@ -28,6 +28,8 @@ func HandleCommand(command *Command) string {
 		return handleCommandListCmd()
 	case constants.DelCmd:
 		return handleDelCmd(command)
+	case constants.IncrCmd:
+		return handleIncrCmd(command)
 	default:
 		return "-ERR Unknown command\r\n"
 	}
