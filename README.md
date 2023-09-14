@@ -9,7 +9,9 @@ It is a simple key-value store that supports the following commands(under develo
 
 * `GET <key>`: Returns the value of the given key. If the key does not exist, it returns `nil`
 * `SET <key> <value>`: Sets the value of the given key. If the key exists, it overwrites the value.
-* `DEL key [key ...] `: Removes the specified keys. A key is ignored if it does not exist.
+* `DEL <key> [<key> ...] `: Removes the specified keys. A key is ignored if it does not exist.  
+* `INCR <key>`: Increments the value of the given key by 1. If the key does not exist, it sets the value to 1. If the value of the key cannot be converted to an integer, it returns an error.
+* `DECR <key>`: Decrements the value of the given key by 1. If the key does not exist, it sets the value to -1. If the value of the key cannot be converted to an integer, it returns an error.
 * `PING [message] ` : Returns `PONG`, or a custom message if one was provided. 
 * `COMMANDS`: Returns a list of supported commands
 

@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"serhhatsari/gores/constants"
 	"sync"
 )
 
@@ -17,16 +18,20 @@ var (
 
 func HandleCommand(command *Command) string {
 	switch command.Name {
-	case PingCmd:
+	case constants.PingCmd:
 		return handlePingCmd(command)
-	case SetCmd:
+	case constants.SetCmd:
 		return handleSetCmd(command)
-	case GetCmd:
+	case constants.GetCmd:
 		return handleGetCmd(command)
-	case CommandCmd:
+	case constants.CommandCmd:
 		return handleCommandListCmd()
-	case DelCmd:
+	case constants.DelCmd:
 		return handleDelCmd(command)
+	case constants.IncrCmd:
+		return handleIncrCmd(command)
+	case constants.DecrCmd:
+		return handleDecrCmd(command)
 	default:
 		return "-ERR Unknown command\r\n"
 	}
