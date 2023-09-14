@@ -2,10 +2,10 @@ package commands
 
 import "fmt"
 
-func Get(key string) (string, bool) {
+func get(key string) (string, bool) {
 	mutex.Lock()
+	defer mutex.Unlock()
 	value, ok := dataStore[key]
-	mutex.Unlock()
 	return value, ok
 }
 
@@ -15,9 +15,9 @@ func handleGetCmd(command *Command) string {
 	}
 
 	key := command.Args[0]
-	value, ok := Get(key)
+	value, ok := get(key)
 	if !ok {
 		return "$-1\r\n"
 	}
-	return "$" + fmt.Sprint(len(value)) + "\r\n" + value + "\r\n"
+	return fmt.Sprintf("$%d\r\n%s\r\n", len(value), value)
 }
