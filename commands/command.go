@@ -36,6 +36,8 @@ func HandleCommand(command *Command) string {
 		return handleIncrCmd(command)
 	case constants.DecrCmd:
 		return handleDecrCmd(command)
+	case constants.AppendCmd:
+		return handleAppendCmd(command)
 	default:
 		return "-ERR Unknown command\r\n"
 	}

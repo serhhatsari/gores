@@ -9,5 +9,6 @@ const (
 	DelCmd     = "DEL"
 	IncrCmd    = "INCR"
 	DecrCmd    = "DECR"
+	AppendCmd  = "APPEND"
 	CommandCmd = "COMMAND"
 )
