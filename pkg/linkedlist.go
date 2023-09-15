@@ -99,6 +99,11 @@ func (ll *LinkedList) GetLast() (string, bool) {
 	return ll.tail.value, true
 }
 
+// Size returns the size of the list
+func (ll *LinkedList) Size() int {
+	return ll.size
+}
+
 // Print prints the list
 func (ll *LinkedList) Print() {
 	for node := ll.head; node != nil; node = node.next {
