@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func decrement(key string) string {
+func decrement(key string, decr int) string {
 	mutex.Lock()
 	defer mutex.Unlock()
 
@@ -19,7 +19,7 @@ func decrement(key string) string {
 	if err != nil {
 		return "-ERR Value is not an integer\r\n"
 	}
-	intVal--
+	intVal -= decr
 
 	dataStore[key] = strconv.Itoa(intVal)
 
@@ -33,5 +33,5 @@ func handleDecrCmd(command *Command) string {
 
 	key := command.Args[0]
 
-	return decrement(key)
+	return decrement(key, 1)
 }

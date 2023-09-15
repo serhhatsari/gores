@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func increment(key string) string {
+func increment(key string, decr int) string {
 	mutex.Lock()
 	defer mutex.Unlock()
 
@@ -18,7 +18,7 @@ func increment(key string) string {
 	if err != nil {
 		return "-ERR Value is not an integer\r\n"
 	}
-	intVal++
+	intVal += decr
 
 	dataStore[key] = strconv.Itoa(intVal)
 
@@ -32,5 +32,5 @@ func handleIncrCmd(command *Command) string {
 
 	key := command.Args[0]
 
-	return increment(key)
+	return increment(key, 1)
 }

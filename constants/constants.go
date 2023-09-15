@@ -7,8 +7,11 @@ const (
 	GetCmd     = "GET"
 	MGetCmd    = "MGET"
 	DelCmd     = "DEL"
+	GetDelCmd  = "GETDEL"
 	IncrCmd    = "INCR"
+	IncrByCmd  = "INCRBY"
 	DecrCmd    = "DECR"
+	DecrByCmd  = "DECRBY"
 	AppendCmd  = "APPEND"
 	CommandCmd = "COMMAND"
 )
