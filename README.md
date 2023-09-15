@@ -9,9 +9,15 @@ It is a simple key-value store that supports the following commands(under develo
 
 * `GET <key>`: Returns the value of the given key. If the key does not exist, it returns `nil`
 * `SET <key> <value>`: Sets the value of the given key. If the key exists, it overwrites the value.
-* `DEL <key> [<key> ...] `: Removes the specified keys. A key is ignored if it does not exist.  
+* `MGET <key> [<key> ...] `: Returns the values of the given keys. If a key does not exist, it returns `nil` for that key.
+* `MSET <key> <value> [<key> <value> ...] `: Sets the values of the given keys. If a key exists, it overwrites the value.
+* `DEL <key> [<key> ...] `: Removes the specified keys. A key is ignored if it does not exist.
+* `GETDEL <key>`: Returns the value of the given key and deletes the key. If the key does not exist, it returns `nil`.
 * `INCR <key>`: Increments the value of the given key by 1. If the key does not exist, it sets the value to 1. If the value of the key cannot be converted to an integer, it returns an error.
 * `DECR <key>`: Decrements the value of the given key by 1. If the key does not exist, it sets the value to -1. If the value of the key cannot be converted to an integer, it returns an error.
+* `INCRBY <key> <increment>`: Increments the value of the given key by the given increment. If the key does not exist, it sets the value to the increment. If the value of the key cannot be converted to an integer, it returns an error.
+* `DECRBY <key> <decrement>`: Decrements the value of the given key by the given decrement. If the key does not exist, it sets the value to the decrement. If the value of the key cannot be converted to an integer, it returns an error.
+* `APPEND <key> <value>`: Appends the given value to the value of the given key. If the key does not exist, it sets the value to the given value. If the value of the key cannot be converted to a string, it returns an error.
 * `PING [message] ` : Returns `PONG`, or a custom message if one was provided. 
 * `COMMANDS`: Returns a list of supported commands
 
