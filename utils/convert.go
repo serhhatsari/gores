@@ -1,17 +1,24 @@
 package utils
 
 import (
+	"fmt"
+	"strconv"
 	"strings"
 
 	"serhhatsari/gores/commands"
 )
 
 func ConvertToCommand(request string) *commands.Command {
-	parts := strings.Fields(request)
+	parts := strings.Split(request, "\r\n")
 
 	name := strings.ToUpper(parts[2])
 
-	argsNum := int(parts[0][1]-'0') - 1
+	argsNum, err := strconv.Atoi(parts[0][1:])
+	if err != nil {
+		fmt.Println("Error converting args num to int")
+		return nil
+	}
+	argsNum = argsNum - 1
 
 	var args []string
 	for i := 4; i < len(parts); i += 2 {
