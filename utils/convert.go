@@ -9,8 +9,7 @@ import (
 )
 
 func ConvertToCommand(request string) *commands.Command {
-
-	parts := strings.Fields(request)
+	parts := strings.Split(request, "\r\n")
 
 	name := strings.ToUpper(parts[2])
 
