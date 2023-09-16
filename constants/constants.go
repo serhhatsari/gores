@@ -15,4 +15,5 @@ const (
 	DecrByCmd   = "DECRBY"
 	AppendCmd   = "APPEND"
 	CommandCmd  = "COMMAND"
+	StrlenCmd   = "STRLEN"
 )
