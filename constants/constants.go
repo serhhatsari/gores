@@ -4,6 +4,7 @@ const (
 	PingCmd     = "PING"
 	SetCmd      = "SET"
 	MSetCmd     = "MSET"
+	SetRangeCmd = "SETRANGE"
 	GetCmd      = "GET"
 	MGetCmd     = "MGET"
 	DelCmd      = "DEL"
