@@ -60,6 +60,8 @@ func HandleCommand(command *Command) string {
 		return handleMSetNxCmd(command)
 	case constants.LPushCmd:
 		return handleLPushCmd(command)
+	case constants.LLenCmd:
+		return handleLLenCmd(command)
 	default:
 		return "-ERR Unknown command\r\n"
 	}
