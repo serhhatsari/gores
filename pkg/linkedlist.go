@@ -1,7 +1,7 @@
 package pkg
 
 /*
-Singly Linked List Implementation
+Doubly Linked List Implementation
 Author: Serhat SARI
 */
 
@@ -15,6 +15,7 @@ type LinkedList struct {
 // Node represents a node in the linked list
 type Node struct {
 	value string
+	prev  *Node
 	next  *Node
 }
 
@@ -34,6 +35,7 @@ func (ll *LinkedList) Add(value string) {
 		ll.tail = node
 	} else { // Handle the case where the list is not empty
 		node.next = ll.head
+		ll.head.prev = node
 		ll.head = node
 	}
 	ll.size++
@@ -57,17 +59,15 @@ func (ll *LinkedList) Remove(value string) bool {
 	}
 
 	// Check the rest of the list
-	prev := ll.head
-	for current := prev.next; current != nil; current = current.next {
+	for current := ll.head.next; current != nil; current = current.next {
 		if current.value == value {
-			prev.next = current.next
+			ll.head.prev.next = current.next
 			if current.next == nil {
-				ll.tail = prev
+				ll.tail = ll.head.prev
 			}
 			ll.size--
 			return true
 		}
-		prev = current
 	}
 
 	return false
