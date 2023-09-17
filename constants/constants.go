@@ -20,4 +20,6 @@ const (
 	CommandCmd     = "COMMAND"
 	StrlenCmd      = "STRLEN"
 	MSetNx         = "MSETNX"
+	LPushCmd       = "LPUSH"
+	LLenCmd        = "LLEN"
 )
