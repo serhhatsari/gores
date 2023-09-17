@@ -5,7 +5,7 @@ import (
 	"serhhatsari/gores/pkg"
 )
 
-func lLen(key string) int {
+func llen(key string) int {
 	mutex.Lock()
 	defer mutex.Unlock()
 	if _, ok := listStore[key]; !ok {
@@ -34,5 +34,5 @@ func handleLPushCmd(command *Command) string {
 		lpush(key, value)
 	}
 
-	return fmt.Sprintf(":%d\r\n", lLen(key))
+	return fmt.Sprintf(":%d\r\n", llen(key))
 }
