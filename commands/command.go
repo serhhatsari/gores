@@ -54,6 +54,8 @@ func HandleCommand(command *Command) string {
 		return handleGetExCmd(command)
 	case constants.IncrByFloatCmd:
 		return handleIncrByFloatCmd(command)
+	case constants.MSetNx:
+		return handleMSetNxCmd(command)
 	default:
 		return "-ERR Unknown command\r\n"
 	}

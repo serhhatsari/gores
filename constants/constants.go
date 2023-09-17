@@ -19,4 +19,5 @@ const (
 	AppendCmd      = "APPEND"
 	CommandCmd     = "COMMAND"
 	StrlenCmd      = "STRLEN"
+	MSetNx         = "MSETNX"
 )
