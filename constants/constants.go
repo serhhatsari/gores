@@ -10,6 +10,7 @@ const (
 	DelCmd      = "DEL"
 	GetDelCmd   = "GETDEL"
 	GetRangeCmd = "GETRANGE"
+	GetExCmd    = "GETEX"
 	IncrCmd     = "INCR"
 	IncrByCmd   = "INCRBY"
 	DecrCmd     = "DECR"
