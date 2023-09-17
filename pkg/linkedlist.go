@@ -24,8 +24,8 @@ func NewLinkedList() *LinkedList {
 	return &LinkedList{}
 }
 
-// Add adds a new node with the given value to the beginning of the list
-func (ll *LinkedList) Add(value string) {
+// PushFront adds a new node with the given value to the beginning of the list
+func (ll *LinkedList) PushFront(value string) {
 	// Create a new node
 	node := &Node{value: value}
 
@@ -41,8 +41,8 @@ func (ll *LinkedList) Add(value string) {
 	ll.size++
 }
 
-// AddLast adds a new node with the given value to the end of the list
-func (ll *LinkedList) AddLast(value string) {
+// PushBack adds a new node with the given value to the end of the list
+func (ll *LinkedList) PushBack(value string) {
 	// Create a new node
 	node := &Node{value: value}
 

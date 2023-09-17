@@ -2,6 +2,7 @@ package commands
 
 import (
 	"serhhatsari/gores/constants"
+	"serhhatsari/gores/pkg"
 	"sync"
 )
 
@@ -13,6 +14,7 @@ type Command struct {
 
 var (
 	dataStore = make(map[string]string)
+	listStore = make(map[string]*pkg.LinkedList)
 	mutex     = &sync.Mutex{}
 )
 
@@ -56,6 +58,8 @@ func HandleCommand(command *Command) string {
 		return handleIncrByFloatCmd(command)
 	case constants.MSetNx:
 		return handleMSetNxCmd(command)
+	case constants.LPushCmd:
+		return handleLPushCmd(command)
 	default:
 		return "-ERR Unknown command\r\n"
 	}
