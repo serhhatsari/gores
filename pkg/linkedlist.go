@@ -5,7 +5,7 @@ Doubly Linked List Implementation
 Author: Serhat SARI
 */
 
-// LinkedList is a singly linked list
+// LinkedList is a doubly linked list
 type LinkedList struct {
 	head *Node
 	tail *Node
