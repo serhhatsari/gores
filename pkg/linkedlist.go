@@ -41,6 +41,23 @@ func (ll *LinkedList) Add(value string) {
 	ll.size++
 }
 
+// AddLast adds a new node with the given value to the end of the list
+func (ll *LinkedList) AddLast(value string) {
+	// Create a new node
+	node := &Node{value: value}
+
+	// Handle the case where the list is empty
+	if ll.head == nil {
+		ll.head = node
+		ll.tail = node
+	} else { // Handle the case where the list is not empty
+		ll.tail.next = node
+		node.prev = ll.tail
+		ll.tail = node
+	}
+	ll.size++
+}
+
 // Remove removes the node with the given value from the list
 func (ll *LinkedList) Remove(value string) bool {
 	// Handle the case where the list is empty
@@ -71,6 +88,49 @@ func (ll *LinkedList) Remove(value string) bool {
 	}
 
 	return false
+}
+
+// RemoveLast removes the last node from the list
+func (ll *LinkedList) RemoveLast() bool {
+	// Handle the case where the list is empty
+	if ll.tail == nil {
+		return false
+	}
+
+	// Handle the case where there is only one node in the list
+	if ll.head == ll.tail {
+		ll.head = nil
+		ll.tail = nil
+		ll.size--
+		return true
+	}
+
+	// Handle the case where there are more than one nodes in the list
+	ll.tail.prev.next = nil
+	ll.tail = ll.tail.prev
+	ll.size--
+	return true
+}
+
+// RemoveFirst removes the first node from the list
+func (ll *LinkedList) RemoveFirst() bool {
+	// Handle the case where the list is empty
+	if ll.head == nil {
+		return false
+	}
+
+	// Handle the case where there is only one node in the list
+	if ll.size == 1 {
+		ll.head = nil
+		ll.tail = nil
+		ll.size--
+		return true
+	}
+
+	// Handle the case where there are more than one nodes in the list
+	ll.head = ll.head.next
+	ll.size--
+	return true
 }
 
 // Get returns the value of the node with the given value, if it exists
