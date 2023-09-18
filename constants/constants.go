@@ -27,4 +27,5 @@ const (
 	LRangeCmd      = "LRANGE"
 	RPushCmd       = "RPUSH"
 	RPushXCmd      = "RPUSHX"
+	RPopCmd        = "RPOP"
 )

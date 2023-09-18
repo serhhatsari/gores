@@ -72,6 +72,8 @@ func HandleCommand(command *Command) string {
 		return handleRPushCmd(command)
 	case constants.RPushXCmd:
 		return handleRPushXCmd(command)
+	case constants.RPopCmd:
+		return handleRPopCmd(command)
 	default:
 		return "-ERR Unknown command\r\n"
 	}

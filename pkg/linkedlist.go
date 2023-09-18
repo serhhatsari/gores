@@ -90,30 +90,8 @@ func (ll *LinkedList) Remove(value string) bool {
 	return false
 }
 
-// RemoveLast removes the last node from the list
-func (ll *LinkedList) RemoveLast() bool {
-	// Handle the case where the list is empty
-	if ll.tail == nil {
-		return false
-	}
-
-	// Handle the case where there is only one node in the list
-	if ll.head == ll.tail {
-		ll.head = nil
-		ll.tail = nil
-		ll.size--
-		return true
-	}
-
-	// Handle the case where there are more than one nodes in the list
-	ll.tail.prev.next = nil
-	ll.tail = ll.tail.prev
-	ll.size--
-	return true
-}
-
-// Pop removes the first node from the list
-func (ll *LinkedList) Pop() (string, bool) {
+// RemoveFirst removes the first node from the list
+func (ll *LinkedList) RemoveFirst() (string, bool) {
 	// Handle the case where the list is empty
 	if ll.head == nil {
 		return "", false
@@ -131,6 +109,30 @@ func (ll *LinkedList) Pop() (string, bool) {
 	// Handle the case where there are more than one nodes in the list
 	value := ll.head.value
 	ll.head = ll.head.next
+	ll.size--
+	return value, true
+}
+
+// RemoveLast removes the last node from the list
+func (ll *LinkedList) RemoveLast() (string, bool) {
+	// Handle the case where the list is empty
+	if ll.tail == nil {
+		return "", false
+	}
+
+	// Handle the case where there is only one node in the list
+	if ll.head == ll.tail {
+		value := ll.head.value
+		ll.head = nil
+		ll.tail = nil
+		ll.size--
+		return value, true
+	}
+
+	// Handle the case where there are more than one nodes in the list
+	value := ll.tail.value
+	ll.tail.prev.next = nil
+	ll.tail = ll.tail.prev
 	ll.size--
 	return value, true
 }
