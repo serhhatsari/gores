@@ -21,6 +21,7 @@ const (
 	StrlenCmd      = "STRLEN"
 	MSetNx         = "MSETNX"
 	LPushCmd       = "LPUSH"
+	LPushXCmd      = "LPUSHX"
 	LLenCmd        = "LLEN"
 	LPopCmd        = "LPOP"
 )
