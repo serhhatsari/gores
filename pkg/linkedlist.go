@@ -24,8 +24,8 @@ func NewLinkedList() *LinkedList {
 	return &LinkedList{}
 }
 
-// PushFront adds a new node with the given value to the beginning of the list
-func (ll *LinkedList) PushFront(value string) {
+// Push adds a new node with the given value to the beginning of the list
+func (ll *LinkedList) Push(value string) {
 	// Create a new node
 	node := &Node{value: value}
 
@@ -112,25 +112,27 @@ func (ll *LinkedList) RemoveLast() bool {
 	return true
 }
 
-// RemoveFirst removes the first node from the list
-func (ll *LinkedList) RemoveFirst() bool {
+// Pop removes the first node from the list
+func (ll *LinkedList) Pop() (string, bool) {
 	// Handle the case where the list is empty
 	if ll.head == nil {
-		return false
+		return "", false
 	}
 
 	// Handle the case where there is only one node in the list
 	if ll.size == 1 {
+		value := ll.head.value
 		ll.head = nil
 		ll.tail = nil
 		ll.size--
-		return true
+		return value, true
 	}
 
 	// Handle the case where there are more than one nodes in the list
+	value := ll.head.value
 	ll.head = ll.head.next
 	ll.size--
-	return true
+	return value, true
 }
 
 // Get returns the value of the node with the given value, if it exists
@@ -162,6 +164,45 @@ func (ll *LinkedList) GetLast() (string, bool) {
 // Size returns the size of the list
 func (ll *LinkedList) Size() int {
 	return ll.size
+}
+
+func (ll *LinkedList) Range(start int, end int) []string {
+	var result []string
+	if start < 0 {
+		start = ll.size + start
+		if start < 0 {
+			start = 0
+		}
+	}
+
+	if end < 0 {
+		end = ll.size + end
+		if end < 0 {
+			return result
+		}
+	}
+
+	if start >= ll.size {
+		return result
+	}
+
+	if end >= ll.size {
+		end = ll.size - 1
+	}
+
+	if start > end {
+		return result
+	}
+
+	count := 0
+	for node := ll.head; node != nil; node = node.next {
+		if count >= start && count <= end {
+			result = append(result, node.value)
+		}
+		count++
+	}
+
+	return result
 }
 
 // Print prints the list

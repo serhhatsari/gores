@@ -9,14 +9,12 @@ func handleGetRangeCmd(command *Command) string {
 
 	key := command.Args[0]
 
-	start := command.Args[1]
-	startVal, err := strconv.Atoi(start)
+	start, err := strconv.Atoi(command.Args[1])
 	if err != nil {
 		return "-ERR Wrong type of argument\r\n"
 	}
 
-	end := command.Args[2]
-	endVal, err := strconv.Atoi(end)
+	end, err := strconv.Atoi(command.Args[2])
 	if err != nil {
 		return "-ERR Wrong type of argument\r\n"
 	}
@@ -26,33 +24,33 @@ func handleGetRangeCmd(command *Command) string {
 		return "+\"\"\r\n"
 	}
 
-	if startVal < 0 {
-		startVal = len(val) + startVal
-		if startVal < 0 {
-			startVal = 0
+	if start < 0 {
+		start = len(val) + start
+		if start < 0 {
+			start = 0
 		}
 	}
 
-	if endVal < 0 {
-		endVal = len(val) + endVal
-		if endVal < 0 {
+	if end < 0 {
+		end = len(val) + end
+		if end < 0 {
 			return "+\"\"\r\n"
 		}
 	}
 
-	if startVal >= len(val) {
+	if start >= len(val) {
 		return "+\"\"\r\n"
 	}
 
-	if endVal >= len(val) {
-		endVal = len(val) - 1
+	if end >= len(val) {
+		end = len(val) - 1
 	}
 
-	if startVal > endVal {
+	if start > end {
 		return "+\"\"\r\n"
 	}
 
-	result := val[startVal : endVal+1]
+	result := val[start : end+1]
 
 	return "$" + strconv.Itoa(len(result)) + "\r\n" + result + "\r\n"
 }
