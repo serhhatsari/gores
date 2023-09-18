@@ -28,7 +28,9 @@ It is a simple key-value store that supports the following commands(under develo
 * `LLEN <key>`: Returns the length of the list stored at the given key. If the key does not exist, it returns 0.
 * `PING [message] ` : Returns `PONG`, or a custom message if one was provided. 
 * `COMMANDS`: Returns a list of supported commands
-
+* `LPOP <key>`: Removes and returns the first element of the list stored at the given key. If the key does not exist, it returns `nil`.
+* `LRANGE <key> <start> <end>`: Returns the specified elements of the list stored at the given key. The offsets `start` and `end` are inclusive. Negative offsets can be used to specify offsets starting from the end of the list. If the key does not exist, it returns an empty list.
+* `LPUSHX <key> <value>`: Prepends the given value to the list stored at the given key. If the key does not exist, it does nothing.
 </details>
 
 ## Getting Started
