@@ -24,4 +24,5 @@ const (
 	LPushXCmd      = "LPUSHX"
 	LLenCmd        = "LLEN"
 	LPopCmd        = "LPOP"
+	LRangeCmd      = "LRANGE"
 )
