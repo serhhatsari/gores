@@ -207,6 +207,59 @@ func (ll *LinkedList) Range(start int, end int) []string {
 	return result
 }
 
+func (ll *LinkedList) Trim(start, end int) {
+	if start < 0 {
+		start = ll.size + start
+		if start < 0 {
+			start = 0
+		}
+	}
+
+	if end < 0 {
+		end = ll.size + end
+		if end < 0 {
+			return
+		}
+	}
+
+	if start >= ll.size {
+		return
+	}
+
+	if end >= ll.size {
+		end = ll.size - 1
+	}
+
+	if start > end {
+		return
+	}
+
+	count := 0
+	for node := ll.head; node != nil; {
+		if count >= start && count <= end {
+			node = node.next
+			count++
+			continue
+		}
+		if node == ll.head {
+			ll.head = node.next
+			node = node.next
+			count++
+			continue
+		}
+
+		node.prev.next = node.next
+		if node.next == nil {
+			ll.tail = node.prev
+		} else {
+			node.next.prev = node.prev
+		}
+		count++
+	}
+
+	ll.size = end - start + 1
+}
+
 // Print prints the list
 func (ll *LinkedList) Print() {
 	for node := ll.head; node != nil; node = node.next {

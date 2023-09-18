@@ -28,4 +28,5 @@ const (
 	RPushCmd       = "RPUSH"
 	RPushXCmd      = "RPUSHX"
 	RPopCmd        = "RPOP"
+	LTrimCmd       = "LTRIM"
 )
