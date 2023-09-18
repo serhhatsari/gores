@@ -20,7 +20,7 @@ func lpush(key string, value string) {
 	if _, ok := listStore[key]; !ok {
 		listStore[key] = pkg.NewLinkedList()
 	}
-	listStore[key].PushFront(value)
+	listStore[key].Push(value)
 }
 
 func handleLPushCmd(command *Command) string {

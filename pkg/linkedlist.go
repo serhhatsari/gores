@@ -25,7 +25,7 @@ func NewLinkedList() *LinkedList {
 }
 
 // PushFront adds a new node with the given value to the beginning of the list
-func (ll *LinkedList) PushFront(value string) {
+func (ll *LinkedList) Push(value string) {
 	// Create a new node
 	node := &Node{value: value}
 
@@ -113,24 +113,26 @@ func (ll *LinkedList) RemoveLast() bool {
 }
 
 // RemoveFirst removes the first node from the list
-func (ll *LinkedList) RemoveFirst() bool {
+func (ll *LinkedList) Pop() (string, bool) {
 	// Handle the case where the list is empty
 	if ll.head == nil {
-		return false
+		return "", false
 	}
 
 	// Handle the case where there is only one node in the list
 	if ll.size == 1 {
+		value := ll.head.value
 		ll.head = nil
 		ll.tail = nil
 		ll.size--
-		return true
+		return value, true
 	}
 
 	// Handle the case where there are more than one nodes in the list
+	value := ll.head.value
 	ll.head = ll.head.next
 	ll.size--
-	return true
+	return value, true
 }
 
 // Get returns the value of the node with the given value, if it exists

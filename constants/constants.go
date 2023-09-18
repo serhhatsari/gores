@@ -22,4 +22,5 @@ const (
 	MSetNx         = "MSETNX"
 	LPushCmd       = "LPUSH"
 	LLenCmd        = "LLEN"
+	LPopCmd        = "LPOP"
 )
