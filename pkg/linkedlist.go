@@ -90,30 +90,8 @@ func (ll *LinkedList) Remove(value string) bool {
 	return false
 }
 
-// RemoveLast removes the last node from the list
-func (ll *LinkedList) RemoveLast() bool {
-	// Handle the case where the list is empty
-	if ll.tail == nil {
-		return false
-	}
-
-	// Handle the case where there is only one node in the list
-	if ll.head == ll.tail {
-		ll.head = nil
-		ll.tail = nil
-		ll.size--
-		return true
-	}
-
-	// Handle the case where there are more than one nodes in the list
-	ll.tail.prev.next = nil
-	ll.tail = ll.tail.prev
-	ll.size--
-	return true
-}
-
-// Pop removes the first node from the list
-func (ll *LinkedList) Pop() (string, bool) {
+// RemoveFirst removes the first node from the list
+func (ll *LinkedList) RemoveFirst() (string, bool) {
 	// Handle the case where the list is empty
 	if ll.head == nil {
 		return "", false
@@ -131,6 +109,30 @@ func (ll *LinkedList) Pop() (string, bool) {
 	// Handle the case where there are more than one nodes in the list
 	value := ll.head.value
 	ll.head = ll.head.next
+	ll.size--
+	return value, true
+}
+
+// RemoveLast removes the last node from the list
+func (ll *LinkedList) RemoveLast() (string, bool) {
+	// Handle the case where the list is empty
+	if ll.tail == nil {
+		return "", false
+	}
+
+	// Handle the case where there is only one node in the list
+	if ll.head == ll.tail {
+		value := ll.head.value
+		ll.head = nil
+		ll.tail = nil
+		ll.size--
+		return value, true
+	}
+
+	// Handle the case where there are more than one nodes in the list
+	value := ll.tail.value
+	ll.tail.prev.next = nil
+	ll.tail = ll.tail.prev
 	ll.size--
 	return value, true
 }
@@ -203,6 +205,59 @@ func (ll *LinkedList) Range(start int, end int) []string {
 	}
 
 	return result
+}
+
+func (ll *LinkedList) Trim(start, end int) {
+	if start < 0 {
+		start = ll.size + start
+		if start < 0 {
+			start = 0
+		}
+	}
+
+	if end < 0 {
+		end = ll.size + end
+		if end < 0 {
+			return
+		}
+	}
+
+	if start >= ll.size {
+		return
+	}
+
+	if end >= ll.size {
+		end = ll.size - 1
+	}
+
+	if start > end {
+		return
+	}
+
+	count := 0
+	for node := ll.head; node != nil; {
+		if count >= start && count <= end {
+			node = node.next
+			count++
+			continue
+		}
+		if node == ll.head {
+			ll.head = node.next
+			node = node.next
+			count++
+			continue
+		}
+
+		node.prev.next = node.next
+		if node.next == nil {
+			ll.tail = node.prev
+		} else {
+			node.next.prev = node.prev
+		}
+		count++
+	}
+
+	ll.size = end - start + 1
 }
 
 // Print prints the list

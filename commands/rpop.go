@@ -1,10 +1,8 @@
 package commands
 
-import (
-	"strconv"
-)
+import "strconv"
 
-func lpop(key string) (string, bool) {
+func rpop(key string) (string, bool) {
 	mutex.Lock()
 	defer mutex.Unlock()
 
@@ -13,7 +11,7 @@ func lpop(key string) (string, bool) {
 		return "", false
 	}
 
-	value, ok := list.RemoveFirst()
+	value, ok := list.RemoveLast()
 	if !ok {
 		return "", false
 	}
@@ -21,7 +19,7 @@ func lpop(key string) (string, bool) {
 	return value, true
 }
 
-func handleLPopCmd(command *Command) string {
+func handleRPopCmd(command *Command) string {
 	if command.ArgsNum != 1 && command.ArgsNum != 2 {
 		return "-ERR wrong number of arguments for LPOP\r\n"
 	}
@@ -39,7 +37,7 @@ func handleLPopCmd(command *Command) string {
 	var elements []string
 
 	for i := 0; i < count; i++ {
-		value, ok := lpop(key)
+		value, ok := rpop(key)
 		if !ok {
 			break
 		}

@@ -25,4 +25,8 @@ const (
 	LLenCmd        = "LLEN"
 	LPopCmd        = "LPOP"
 	LRangeCmd      = "LRANGE"
+	RPushCmd       = "RPUSH"
+	RPushXCmd      = "RPUSHX"
+	RPopCmd        = "RPOP"
+	LTrimCmd       = "LTRIM"
 )
