@@ -14,14 +14,14 @@ func main() {
 	// Create a listener for incoming connections
 	listener, err := net.Listen("tcp", "0.0.0.0:6379")
 	if err != nil {
-		slog.Error("Error listening:", err.Error())
+		slog.Error("Error listening: ", "error", err.Error())
 		return
 	}
 	// Close the listener when the application closes
 	defer func(listener net.Listener) {
 		err := listener.Close()
 		if err != nil {
-			slog.Error("Error closing listener:", err)
+			slog.Error("Error closing listener:", "error", err)
 			return
 		}
 	}(listener)
@@ -33,7 +33,7 @@ func main() {
 		// Accept a connection from a client
 		conn, err := listener.Accept()
 		if err != nil {
-			slog.Error("Error accepting: ", err.Error())
+			slog.Error("Error accepting: ", "error", err.Error())
 			continue
 		}
 
@@ -61,7 +61,7 @@ func handleClient(conn net.Conn) {
 			if err.Error() == "EOF" {
 				return
 			}
-			slog.Error("Error reading:", err.Error())
+			slog.Error("Error reading:", "error", err.Error())
 			return
 		}
 
@@ -77,7 +77,7 @@ func handleClient(conn net.Conn) {
 		// Send the response back to the client
 		_, err = conn.Write([]byte(response))
 		if err != nil {
-			slog.Error("Error writing:", err.Error())
+			slog.Error("Error writing:", "error", err.Error())
 			return
 		}
 	}
