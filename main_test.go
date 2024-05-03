@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"net"
 	"os"
+	"strings"
 	"testing"
 	"time"
 )
@@ -35,7 +36,7 @@ func TestConnection(t *testing.T) {
 	}
 }
 
-func TestHandleClient(t *testing.T) {
+func TestPing(t *testing.T) {
 
 	// try to connect to the server
 	conn, err := net.Dial("tcp", "0.0.0.0:6379")
@@ -44,21 +45,84 @@ func TestHandleClient(t *testing.T) {
 	}
 	defer conn.Close()
 
-	// send a request to the server
+	// send PING command
 	_, err = conn.Write([]byte("*1\r\n$4\r\nPING\r\n"))
 	if err != nil {
 		t.Fatalf("Could not write to connection: %v", err)
 	}
 
-	// read the response from the server
+	// read response
 	reader := bufio.NewReader(conn)
 	response, err := reader.ReadString('\n')
 	if err != nil {
 		t.Fatalf("Could not read from connection: %v", err)
 	}
 
-	// check the response
-	expectedResponse := "+PONG\r\n"
+	// check response
+	if response != "+PONG\r\n" {
+		t.Fatalf("Unexpected response: %v", response)
+	}
+}
+
+func TestSet(t *testing.T) {
+	// try to connect to the server
+	conn, err := net.Dial("tcp", "0.0.0.0:6379")
+	if err != nil {
+		t.Fatalf("Could not connect to server: %v", err)
+	}
+	defer conn.Close()
+
+	// send SET command
+	_, err = conn.Write([]byte("*3\r\n$3\r\nSET\r\n$3\r\nkey\r\n$5\r\nvalue\r\n"))
+	if err != nil {
+		t.Fatalf("Could not write to connection: %v", err)
+	}
+
+	// read response
+	reader := bufio.NewReader(conn)
+	response, err := reader.ReadString('\n')
+	if err != nil {
+		t.Fatalf("Could not read from connection: %v", err)
+	}
+
+	// check response
+	if response != "+OK\r\n" {
+		t.Fatalf("Unexpected response: %v", response)
+	}
+}
+
+func TestGet(t *testing.T) {
+	// try to connect to the server
+	conn, err := net.Dial("tcp", "0.0.0.0:6379")
+	if err != nil {
+		t.Fatalf("Could not connect to server: %v", err)
+	}
+	defer conn.Close()
+
+	// send GET command
+	_, err = conn.Write([]byte("*2\r\n$3\r\nGET\r\n$3\r\nkey\r\n"))
+	if err != nil {
+		t.Fatalf("Could not write to connection: %v", err)
+	}
+
+	// read response
+	reader := bufio.NewReader(conn)
+	response, err := reader.ReadString('\n')
+	if err != nil {
+		t.Fatalf("Could not read from connection: %v", err)
+	}
+
+	// if the response contains multiple lines, read the next line
+	if strings.HasPrefix(response, "$") {
+		nextLine, err := reader.ReadString('\n')
+		if err != nil {
+			t.Fatalf("Could not read from connection: %v", err)
+		}
+		response += nextLine
+	}
+
+	// check response
+	expectedResponse := "$5\r\nvalue\r\n"
 	if response != expectedResponse {
 		t.Fatalf("Unexpected response: got %v want %v", response, expectedResponse)
 	}
