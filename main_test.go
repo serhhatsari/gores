@@ -16,8 +16,7 @@ func TestMain(m *testing.M) {
 	// run the tests
 	code := m.Run()
 
-	// here you would add code to stop the server
-
+	// stop the server
 	os.Exit(code)
 }
 
